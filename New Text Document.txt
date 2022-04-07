@@ -1,0 +1,13 @@
+dir -- see folder 
+
+pip install gunicorn
+
+database: mysql / postgol
+server
+storage
+
+heroku ,database pacage 
+
+pip install heroku
+pip freeze > requirements.txt
+Procfile
