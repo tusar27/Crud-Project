@@ -11,3 +11,6 @@ heroku ,database pacage
 pip install heroku
 pip freeze > requirements.txt
 Procfile
+
+git remote rm origin
+git remote add origin https://github.com/tusar27/Crud-Project.git

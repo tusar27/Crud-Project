@@ -125,7 +125,7 @@ h1, h2, h3, h4, h5, h6 {
       <header class="blog-header py-3">
         <div class="row flex-nowrap justify-content-between align-items-center">
           <div class="col-4 pt-1">
-            <a class="link-secondary" href="https://l.facebook.com/l.php?u=http%3A%2F%2Ftusarsarder.pythonanywhere.com%2F%3Ffbclid%3DIwAR1EN1KBzolqPxz6hC6a8CDG9sPgSwZ1_5y2TEn5wojXRM81mnY9i7AUKl4&h=AT2v7Y2aP7xDFQoW0JDJ7sZpVADf6912gC9uiiUvhV2nkBEM2RRRyVbF8jXqtXaM20jF4dv991IPekhWpQQHrJ0N_j4opPlKFnZuBCQBbVN7avuFxM8VHJldDKJnMTjCsPqC2A">Tusar Sarder</a>
+            <a class="link-secondary" href="https://tusarsarder.pythonanywhere.com/">Tusar Sarder</a>
           </div>
           <div class="col-4 text-center">
             <a class="blog-header-logo text-dark">Leads</a>
@@ -262,79 +262,77 @@ h1, h2, h3, h4, h5, h6 {
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     
-    
+       
   <script>
-      $(function () {
+    $(function () {
 
-  /* Functions */
+/* Functions */
 
-      var loadForm = function () {
-        var btn = $(this);
-        $.ajax({
-          url: btn.attr("data-url"),
-          type: 'get',
-          dataType: 'json',
-          beforeSend: function () {
-            $("#modal-leads .modal-content").html("");
-            $("#modal-leads").modal("show");
+    var loadForm = function () {
+      var btn = $(this);
+      $.ajax({
+        url: btn.attr("data-url"),
+        type: 'get',
+        dataType: 'json',
+        beforeSend: function () {
+          $("#modal-leads .modal-content").html("");
+          $("#modal-leads").modal("show");
+        },
+        success: function (data) {
+          $("#modal-leads .modal-content").html(data.html_form);
+        }
+      });
+    };
+
+    
+    
+    var saveForm = function () {
+      var form = $(this);
+      $.ajax({
+        url: form.attr("action"),
+        data: form.serialize(),
+        type: form.attr("method"),
+        dataType: 'json',
+        
+        beforeSend: function() {
+          $('#loading').html('<div class="text-center"><div class="spinner-border spinner-border-sm" role="status"><span class="visually-hidden">Loading...</span></div></div>');
           },
-          success: function (data) {
+        
+        success: function (data) {
+          if (data.form_is_valid) {
+            $("#leads-table tbody").html(data.html_book_list);
+            $("#modal-leads").modal("hide");
+           
+          }
+          else {
             $("#modal-leads .modal-content").html(data.html_form);
           }
-        });
-      };
-
-      
-      
-      var saveForm = function () {
-        var form = $(this);
-        $.ajax({
-          url: form.attr("action"),
-          data: form.serialize(),
-          type: form.attr("method"),
-          dataType: 'json',
-          
-          beforeSend: function() {
-            $('#loading').html('<div class="text-center"><div class="spinner-border spinner-border-sm" role="status"><span class="visually-hidden">Loading...</span></div></div>');
-            },
-          
-          success: function (data) {
-            if (data.form_is_valid) {
-              $("#leads-table tbody").html(data.html_book_list);
-              $("#modal-leads").modal("hide");
-             
-            }
-            else {
-              $("#modal-leads .modal-content").html(data.html_form);
-            }
-          }
-        });
-        return false;
-      };
-
-
-  /* Binding */
-
-  // Create book
-      $(".js-create-book").click(loadForm);
-      $("#modal-leads").on("submit", ".js-book-create-form", saveForm);
-
-      
-      
-      
-      
-      // Update book
-      $("#leads-table").on("click", ".js-update-book", loadForm);
-      $("#modal-leads").on("submit", ".js-book-update-form", saveForm);
-
-      // Delete book
-      $("#leads-table").on("click", ".js-delete-book", loadForm);
-      $("#modal-leads").on("submit", ".js-book-delete-form", saveForm);
-
+        }
       });
+      return false;
+    };
 
-</script>
+
+/* Binding */
+
+// Create book
+    $(".js-create-book").click(loadForm);
+    $("#modal-leads").on("submit", ".js-book-create-form", saveForm);
+
     
     
+    
+    
+    // Update book
+    $("#leads-table").on("click", ".js-update-book", loadForm);
+    $("#modal-leads").on("submit", ".js-book-update-form", saveForm);
+
+    // Delete book
+    $("#leads-table").on("click", ".js-delete-book", loadForm);
+    $("#modal-leads").on("submit", ".js-book-delete-form", saveForm);
+
+    });
+
+</script>    
   </body>
 </html>
